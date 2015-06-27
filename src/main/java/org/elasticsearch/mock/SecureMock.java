@@ -36,6 +36,31 @@ import org.mockito.verification.VerificationWithTimeout;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+/**
+ * Wraps Mockito API with calls to AccessController.
+ * <p>
+ * This is useful if you want to mock in a securitymanager environment,
+ * but contain the permissions to only mocking test libraries.
+ * <p>
+ * Instead of:
+ * <pre>
+ * grant {
+ *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
+ * };
+ * </pre>
+ * You can just change import statements, then do:
+ * <pre>
+ * grant codeBase "/url/to/objensis.jar" {
+ *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
+ * };
+ * grant codeBase "/url/to/mockito.jar" {
+ *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
+ * };
+ * grant codeBase "/url/to/securemock.jar" {
+ *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
+ * };
+ * </pre>
+ */
 public class SecureMock extends Matchers {
     
     public static final Answer<Object> RETURNS_DEFAULTS = Mockito.RETURNS_DEFAULTS;
@@ -43,7 +68,6 @@ public class SecureMock extends Matchers {
     public static final Answer<Object> RETURNS_MOCKS = Mockito.RETURNS_MOCKS;
     public static final Answer<Object> RETURNS_DEEP_STUBS = Mockito.RETURNS_DEEP_STUBS;
     public static final Answer<Object> CALLS_REAL_METHODS = Mockito.CALLS_REAL_METHODS;
-    
     
     public static <T> T mock(final Class<T> classToMock) {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
