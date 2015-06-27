@@ -23,7 +23,6 @@ import org.mockito.InOrder;
 import org.mockito.Matchers;
 import org.mockito.MockSettings;
 import org.mockito.MockingDetails;
-import org.mockito.Mockito;
 import org.mockito.ReturnValues;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.DeprecatedOngoingStubbing;
@@ -48,32 +47,26 @@ import java.security.PrivilegedAction;
  *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
  * };
  * </pre>
- * You can just change import statements, then do:
+ * You can just change maven dependencies to use securemock.jar, and then:
  * <pre>
- * grant codeBase "/url/to/objensis.jar" {
- *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
- * };
- * grant codeBase "/url/to/mockito.jar" {
- *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
- * };
  * grant codeBase "/url/to/securemock.jar" {
  *   permission java.lang.RuntimePermission "reflectionFactoryAccess";
  * };
  * </pre>
  */
-public class SecureMock extends Matchers {
+public class Mockito extends Matchers {
     
-    public static final Answer<Object> RETURNS_DEFAULTS = Mockito.RETURNS_DEFAULTS;
-    public static final Answer<Object> RETURNS_SMART_NULLS = Mockito.RETURNS_SMART_NULLS;
-    public static final Answer<Object> RETURNS_MOCKS = Mockito.RETURNS_MOCKS;
-    public static final Answer<Object> RETURNS_DEEP_STUBS = Mockito.RETURNS_DEEP_STUBS;
-    public static final Answer<Object> CALLS_REAL_METHODS = Mockito.CALLS_REAL_METHODS;
+    public static final Answer<Object> RETURNS_DEFAULTS = org.mockito.Mockito.RETURNS_DEFAULTS;
+    public static final Answer<Object> RETURNS_SMART_NULLS = org.mockito.Mockito.RETURNS_SMART_NULLS;
+    public static final Answer<Object> RETURNS_MOCKS = org.mockito.Mockito.RETURNS_MOCKS;
+    public static final Answer<Object> RETURNS_DEEP_STUBS = org.mockito.Mockito.RETURNS_DEEP_STUBS;
+    public static final Answer<Object> CALLS_REAL_METHODS = org.mockito.Mockito.CALLS_REAL_METHODS;
     
     public static <T> T mock(final Class<T> classToMock) {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.mock(classToMock);
+                return org.mockito.Mockito.mock(classToMock);
             }
         });
     }
@@ -82,7 +75,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.mock(classToMock, name);
+                return org.mockito.Mockito.mock(classToMock, name);
             }
         });
     }
@@ -91,7 +84,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<MockingDetails>() {
             @Override
             public MockingDetails run() {
-                return Mockito.mockingDetails(toInspect);
+                return org.mockito.Mockito.mockingDetails(toInspect);
             }
         });
     }
@@ -101,7 +94,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.mock(classToMock, returnValues);
+                return org.mockito.Mockito.mock(classToMock, returnValues);
             }
         });
     }
@@ -110,7 +103,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.mock(classToMock, defaultAnswer);
+                return org.mockito.Mockito.mock(classToMock, defaultAnswer);
             }
         });
     }
@@ -119,7 +112,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.mock(classToMock, mockSettings);
+                return org.mockito.Mockito.mock(classToMock, mockSettings);
             }
         });
     }
@@ -128,7 +121,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.spy(object);
+                return org.mockito.Mockito.spy(object);
             }
         });
     }
@@ -137,7 +130,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<DeprecatedOngoingStubbing<T>>() {
             @Override
             public DeprecatedOngoingStubbing<T> run() {
-                return Mockito.stub(methodCall);
+                return org.mockito.Mockito.stub(methodCall);
             }
         });
     }
@@ -146,7 +139,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<OngoingStubbing<T>>() {
             @Override
             public OngoingStubbing<T> run() {
-                return Mockito.when(methodCall);
+                return org.mockito.Mockito.when(methodCall);
             }
         });
     }
@@ -155,7 +148,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.verify(mock);
+                return org.mockito.Mockito.verify(mock);
             }
         });
     }
@@ -164,7 +157,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<T>() {
             @Override
             public T run() {
-                return Mockito.verify(mock, mode);
+                return org.mockito.Mockito.verify(mock, mode);
             }
         });
     }
@@ -173,7 +166,7 @@ public class SecureMock extends Matchers {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                Mockito.reset(mocks);
+                org.mockito.Mockito.reset(mocks);
                 return null;
             }
         });
@@ -183,7 +176,7 @@ public class SecureMock extends Matchers {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                Mockito.verifyNoMoreInteractions(mocks);
+                org.mockito.Mockito.verifyNoMoreInteractions(mocks);
                 return null;
             }
         });
@@ -193,7 +186,7 @@ public class SecureMock extends Matchers {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                Mockito.verifyZeroInteractions(mocks);
+                org.mockito.Mockito.verifyZeroInteractions(mocks);
                 return null;
             }
         });
@@ -204,7 +197,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VoidMethodStubbable<T>>() {
             @Override
             public VoidMethodStubbable<T> run() {
-                return Mockito.stubVoid(mock);
+                return org.mockito.Mockito.stubVoid(mock);
             }
         });
     }
@@ -213,7 +206,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doThrow(toBeThrown);
+                return org.mockito.Mockito.doThrow(toBeThrown);
             }
         });
     }
@@ -222,7 +215,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doThrow(toBeThrown);
+                return org.mockito.Mockito.doThrow(toBeThrown);
             }
         });
     }
@@ -231,7 +224,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doCallRealMethod();
+                return org.mockito.Mockito.doCallRealMethod();
             }
         });
     }
@@ -240,7 +233,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doAnswer(answer);
+                return org.mockito.Mockito.doAnswer(answer);
             }
         });
     }  
@@ -249,7 +242,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doNothing();
+                return org.mockito.Mockito.doNothing();
             }
         });
     }
@@ -258,7 +251,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Stubber>() {
             @Override
             public Stubber run() {
-                return Mockito.doReturn(toBeReturned);
+                return org.mockito.Mockito.doReturn(toBeReturned);
             }
         });
     }
@@ -267,7 +260,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<InOrder>() {
             @Override
             public InOrder run() {
-                return Mockito.inOrder(mocks);
+                return org.mockito.Mockito.inOrder(mocks);
             }
         });
     }
@@ -276,7 +269,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<Object[]>() {
             @Override
             public Object[] run() {
-                return Mockito.ignoreStubs(mocks);
+                return org.mockito.Mockito.ignoreStubs(mocks);
             }
         });
     }
@@ -285,7 +278,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.times(wantedNumberOfInvocations);
+                return org.mockito.Mockito.times(wantedNumberOfInvocations);
             }
         });
     }
@@ -294,7 +287,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.never();
+                return org.mockito.Mockito.never();
             }
         });
     }
@@ -303,7 +296,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.atLeastOnce();
+                return org.mockito.Mockito.atLeastOnce();
             }
         });
     }
@@ -312,7 +305,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.atLeast(minNumberOfInvocations);
+                return org.mockito.Mockito.atLeast(minNumberOfInvocations);
             }
         });
     }
@@ -321,7 +314,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.atMost(maxNumberOfInvocations);
+                return org.mockito.Mockito.atMost(maxNumberOfInvocations);
             }
         });
     }
@@ -330,7 +323,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.calls(wantedNumberOfInvocations);
+                return org.mockito.Mockito.calls(wantedNumberOfInvocations);
             }
         });
     }
@@ -339,7 +332,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationMode>() {
             @Override
             public VerificationMode run() {
-                return Mockito.only();
+                return org.mockito.Mockito.only();
             }
         });
     }
@@ -348,7 +341,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<VerificationWithTimeout>() {
             @Override
             public VerificationWithTimeout run() {
-                return Mockito.timeout(millis);
+                return org.mockito.Mockito.timeout(millis);
             }
         });
     }
@@ -357,7 +350,7 @@ public class SecureMock extends Matchers {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                Mockito.validateMockitoUsage();
+                org.mockito.Mockito.validateMockitoUsage();
                 return null;
             }
         });
@@ -367,7 +360,7 @@ public class SecureMock extends Matchers {
         return AccessController.doPrivileged(new PrivilegedAction<MockSettings>() {
             @Override
             public MockSettings run() {
-                return Mockito.withSettings();
+                return org.mockito.Mockito.withSettings();
             }
         });
     }
